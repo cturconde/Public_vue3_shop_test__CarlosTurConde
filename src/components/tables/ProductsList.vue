@@ -115,8 +115,6 @@ export default defineComponent({
     }
     const cartStore = useCartStore()
     const addToCart = (product: any) => {
-      // Lógica para realizar la acción con los datos
-      console.log('Add this product:', product)
       cartStore.addProduct(product)
     }
     let handleSizeChange = async (elements: number) => {

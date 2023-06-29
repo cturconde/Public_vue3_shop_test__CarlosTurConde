@@ -9,7 +9,7 @@
       {{ componentVisible ? 'Hide Cart >' : '< Show Cart ' }}
     </el-button>
     <div class="component-container">
-      Cesta de la compra
+      Shopping Cart: {{ cartStore.totalProducts }}
       <ElementsCart :products="cartStore.myProducts"></ElementsCart>
     </div>
   </div>

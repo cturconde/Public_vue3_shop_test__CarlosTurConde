@@ -23,33 +23,25 @@ export const useProductList = defineStore('myProductsList', {
     }
   }
 })
-// export const useCartStore = defineStore('useCartStore', {
-//   state: () => ({ productsOnCart: [], name: 'Products added', totalProducts: Number, totalPrice: Number }),
-//   getters: {
-//     cartStore: (state) => state.productsOnCart
-//   },
-//   actions: {
-//     addProduct(product: any) => {
-//       this.productsOnCart.push(product)
-//     }
-//   }
-// })
 
 export const useCartStore = defineStore('useCartStore', () => {
-  const totalProducts = ref(0)
   const productsOnCart = ref([])
-
   const addProduct = (product: any) => {
-    console.log('add: ', product)
-    productsOnCart.value.push(product)
-    console.log('productsOnCart:', productsOnCart.value)
+    const productIsAdded = productsOnCart.value.find((prod) => prod.id === product.id)
+    if (!productIsAdded) {
+      product.quantity = 1
+      productsOnCart.value.push(product)
+    } else product.quantity++
   }
 
-  const count = ref(0)
-  function increment() {
-    count.value++
+  const removeProduct = (product: any) => {
+    const index = productsOnCart.value.findIndex((p) => p.id === product.id)
+    if (index !== -1) {
+      productsOnCart.value.splice(index, 1)
+    }
   }
 
   const myProducts = computed(() => productsOnCart.value)
-  return { count, totalProducts, increment, addProduct, myProducts }
+  const totalProducts = computed(() => myProducts.value.length)
+  return { addProduct, removeProduct, myProducts, totalProducts }
 })

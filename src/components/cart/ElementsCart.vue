@@ -1,31 +1,34 @@
 <template>
   <div>
-    <!-- <div v-if="products.lenght > 0"> -->
     <div v-for="(product, index) in products" :key="index" class="product-item">
-      <img :src="product.thumbnail" :alt="product.title" class="product-image col" />
-      <div class="product-info col">
-        <h3>{{ product.name }}</h3>
-        <p>{{ product.description }}</p>
+      <div class="product-values">
+        <img :src="product.thumbnail" :alt="product.title" class="product-image col" />
+        <div class="product-actions">
+          <el-input-number
+            v-model="product.quantity"
+            :step="1"
+            step-strictly
+            :min="1"
+            @change="quantityChanged"
+          /><el-button @click="removeProduct(product)">Remove</el-button>
+          <h4>{{ product.price }}€ (-{{ product.discountPercentage }}%)</h4>
+        </div>
       </div>
-      <div class="product-actions col">
-        <button @click="decrementQuantity(product)">-</button>
-        <span>{{ product.quantity }}</span>
-        <button @click="incrementQuantity(product)">+</button>
-        <button @click="removeProduct(product)">Eliminar</button>
+
+      <div class="product-info">
+        <h4 class="col title">{{ product.title }}</h4>
+        <p class="col description">{{ product.description }}</p>
       </div>
     </div>
-    <!-- </div> -->
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
 import { useCartStore } from '@/stores/products'
-import ProductCart from './ProductCart.vue'
 
 export default defineComponent({
   name: 'ElementsCart',
-  components: { ProductCart },
   props: {
     products: {
       type: Array,
@@ -40,15 +43,11 @@ export default defineComponent({
       cartStore.removeProduct(product)
     }
 
-    const incrementQuantity = (product) => {
-      cartStore.incrementQuantity(product)
+    const quantityChanged = (product) => {
+      cartStore.quantityChanged(product)
     }
 
-    const decrementQuantity = (product) => {
-      cartStore.decrementQuantity(product)
-    }
-
-    return { props, removeProduct, incrementQuantity, decrementQuantity }
+    return { props, removeProduct, quantityChanged }
   }
 })
 </script>
@@ -56,7 +55,8 @@ export default defineComponent({
 <style scoped>
 .product-item {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: left;
   margin-bottom: 10px;
 }
 
@@ -65,6 +65,16 @@ export default defineComponent({
   height: 100px;
   object-fit: cover;
   margin-right: 10px;
+}
+.product-info {
+  text-align: left;
+  text-overflow: ellipsis;
+  height: 150px;
+  overflow: hidden;
+}
+.product-values {
+  display: flex;
+  flex-direction: row;
 }
 
 .product-actions button {
