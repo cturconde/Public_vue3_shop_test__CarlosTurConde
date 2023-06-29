@@ -20,7 +20,8 @@
       <el-table-column prop="price" width="150" label="Price"
         ><template v-slot="scope">
           {{ scope.row.price }}€ (-{{ scope.row.discountPercentage }}%)
-        </template></el-table-column
+          <div class="lowerPrice" v-if="minValue == scope.row.price">Lower total price</div>
+        </template> </el-table-column
       ><el-table-column prop="stock" width="100" label="Stock"
         ><template v-slot="scope">
           {{ scope.row.stock }}
@@ -81,38 +82,58 @@ export default defineComponent({
       required: true
     }
   },
-
-  data() {
+  setup(props) {
     const myTable = ref(null)
     const search = ref(null)
+    let modalData = ref(null)
+    let modalVisible = ref(false)
     const filterTableData = computed(() =>
-      this.products.filter(
-        (data) => !search.value || data.title.toLowerCase().includes(search.value.toLowerCase())
+      props.products.filter(
+        (data: any) =>
+          !search.value || data.title.toLowerCase().includes(search.value.toLowerCase())
       )
     )
-    return {
-      modalVisible: false,
-      modalData: null,
-      myTable,
-      excludedKeys: ['id', 'thumbnail', 'images'],
-      filterTableData,
-      search
-    }
-  },
-  methods: {
-    moreInfo(data) {
+    const minValue = computed(() => {
+      const prices = filterTableData.value.map((item: any) => item.price)
+      return Math.min(...prices)
+    })
+
+    const moreInfo = (data: any) => {
       const { id, thumbnail, images, ...filteredData } = data
-      this.modalData = filteredData
-      this.modalVisible = true
-    },
-    addToCart(data) {
+      modalData.value = filteredData
+      modalVisible.value = true
+    }
+    const addToCart = (data: any) => {
       // Lógica para realizar la acción con los datos
       console.log('Accion realizada con:', data)
+    }
+    console.log(minValue.value)
+    return {
+      search,
+      filterTableData,
+      minValue,
+      modalVisible,
+      modalData,
+      myTable,
+      excludedKeys: ['id', 'thumbnail', 'images'],
+      moreInfo,
+      addToCart,
+      pageSize: 1,
+      pageSizes: 10
     }
   }
 })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 /* Estilos específicos del componente */
+.lowerPrice {
+  color: rgb(194, 100, 0);
+  text-shadow: 1px 1px 2px #9c9c9c;
+  letter-spacing: 1px;
+  padding: 2px;
+  font-size: small;
+  border: 0.3rem solid rgba(194, 100, 0, 0.792);
+  border-radius: 5px;
+}
 </style>

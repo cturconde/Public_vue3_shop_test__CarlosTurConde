@@ -1,7 +1,4 @@
 # EFIMATICA_Prueba_CarlosTur
-
-This template should help get you started developing with Vue 3 in Vite.
-
 ## Recommended IDE Setup
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
@@ -24,7 +21,16 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 ## Project Setup
 
 ```sh
-npm install
+ cd projectfolder
+  npm install
+  npm audit fix
+  npm run format
+  npm run dev
+
+Dependecies if not installed:
+    npm install element-plus --save
+    npm install bootstrap@3
+    npm install --save-dev sass
 ```
 
 ### Compile and Hot-Reload for Development
