@@ -1,5 +1,5 @@
 <template>
-  <h3>List of products</h3>
+  <h3 style="margin-left: 10px">List of products</h3>
   <div>
     <el-table
       ref="myTable"
@@ -12,7 +12,7 @@
           {{ scope.row.title }}
         </template></el-table-column
       >
-      <el-table-column prop="description" width="400" label="Description"
+      <el-table-column prop="description" label="Description"
         ><template v-slot="scope">
           {{ scope.row.description }}
         </template></el-table-column
@@ -74,7 +74,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue'
-import { useProductList } from '@/stores/products'
+import { useProductList, useCartStore } from '@/stores/products'
 
 export default defineComponent({
   name: 'ProductsList',
@@ -113,9 +113,11 @@ export default defineComponent({
       modalData.value = filteredData
       modalVisible.value = true
     }
-    const addToCart = (data: any) => {
+    const cartStore = useCartStore()
+    const addToCart = (product: any) => {
       // Lógica para realizar la acción con los datos
-      console.log('Accion realizada con:', data)
+      console.log('Add this product:', product)
+      cartStore.addProduct(product)
     }
     let handleSizeChange = async (elements: number) => {
       pageSize.value = elements

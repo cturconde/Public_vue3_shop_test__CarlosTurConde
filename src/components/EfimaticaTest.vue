@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <ProductsList :products="store.products" :totalProducts="store.totalProducts" />
+  <div class="EfimaticaTest">
+    <ProductsList :products="store.products" :totalProducts="store.totalProducts" class="col" />
+    <RightCart class="col" />
   </div>
 </template>
 
@@ -8,12 +9,14 @@
 // import ProductsList from '../tables/ProductsList.vue'
 import { defineComponent } from 'vue'
 import ProductsList from './tables/ProductsList.vue'
+import RightCart from './cart/RightCart.vue'
 import { useProductList } from '@/stores/products'
 
 export default defineComponent({
   name: 'EfimaticaTest',
   components: {
-    ProductsList
+    ProductsList,
+    RightCart
   },
   data() {
     return {
@@ -27,5 +30,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-/* Estilos específicos del componente */
+.EfimaticaTest {
+  overflow: hidden;
+}
 </style>
