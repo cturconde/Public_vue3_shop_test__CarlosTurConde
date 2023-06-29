@@ -61,10 +61,11 @@
       :page-sizes="pageSizes"
       :pager-count="4"
       layout="sizes, prev, pager, next"
-      :total="products.length"
-      :small="false"
+      :total="props.totalProducts"
+      :small="true"
       :disabled="false"
       :background="false"
+      class="mt-4"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
@@ -73,6 +74,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue'
+import { useProductList } from '@/stores/products'
 
 export default defineComponent({
   name: 'ProductsList',
@@ -80,13 +82,21 @@ export default defineComponent({
     products: {
       type: Array,
       required: true
+    },
+    totalProducts: {
+      type: Number,
+      required: true
     }
   },
   setup(props) {
     const myTable = ref(null)
     const search = ref(null)
+
     let modalData = ref(null)
     let modalVisible = ref(false)
+    let pageSize = ref(10)
+    let currentPage = ref(1)
+    let pageSizes = ref([1, 3, 5, 10, 30, 100])
     const filterTableData = computed(() =>
       props.products.filter(
         (data: any) =>
@@ -107,8 +117,19 @@ export default defineComponent({
       // Lógica para realizar la acción con los datos
       console.log('Accion realizada con:', data)
     }
-    console.log(minValue.value)
+    let handleSizeChange = async (elements: number) => {
+      pageSize.value = elements
+      await useProductList().getProductsData(elements, pageSize.value * (currentPage.value - 1))
+      return elements
+    }
+    let handleCurrentChange = async (page: number) => {
+      currentPage.value = page
+      await useProductList().getProductsData(pageSize.value, pageSize.value * (page - 1))
+      return page
+    }
+
     return {
+      props,
       search,
       filterTableData,
       minValue,
@@ -118,8 +139,12 @@ export default defineComponent({
       excludedKeys: ['id', 'thumbnail', 'images'],
       moreInfo,
       addToCart,
-      pageSize: 1,
-      pageSizes: 10
+      pageSize,
+      pageSizes,
+      currentPage,
+      handleSizeChange,
+      handleCurrentChange,
+      store: useProductList()
     }
   }
 })

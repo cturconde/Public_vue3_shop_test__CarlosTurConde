@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ProductsList :products="store.products" />
+    <ProductsList :products="store.products" :totalProducts="store.totalProducts" />
   </div>
 </template>
 
