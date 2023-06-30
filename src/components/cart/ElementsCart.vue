@@ -9,7 +9,7 @@
             :step="1"
             step-strictly
             :min="1"
-            @change="quantityChanged"
+            @change="quantityChanged(product)"
           /><el-button size="small" @click="removeProduct(product)">Remove</el-button>
           <h4>
             {{ (product.totalPrice = product.price * product.quantity) }} € (-{{
@@ -45,11 +45,11 @@ export default defineComponent({
     const removeProduct = (product) => {
       cartStore.removeProduct(product)
       localStorage.setItem('cartProducts', JSON.stringify(cartStore.myProducts))
-      localStorage.setItem('cartTotalProducts', JSON.stringify(cartStore.myProducts.length))
     }
 
     const quantityChanged = (product) => {
       cartStore.quantityChanged(product)
+      localStorage.setItem('cartProducts', JSON.stringify(cartStore.myProducts))
     }
 
     return { props, removeProduct, quantityChanged }

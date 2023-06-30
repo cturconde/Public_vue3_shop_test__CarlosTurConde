@@ -38,7 +38,7 @@ export const useCartStore = defineStore('useCartStore', () => {
     if (!productIsAdded) {
       product.quantity = 1
       productsOnCart.value.push(product)
-    } else product.quantity++
+    }
   }
 
   const removeProduct = (product: any) => {

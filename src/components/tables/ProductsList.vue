@@ -118,7 +118,6 @@ export default defineComponent({
     const addToCart = (product: any) => {
       cartStore.addProduct(product)
       localStorage.setItem('cartProducts', JSON.stringify(cartStore.myProducts))
-      localStorage.setItem('cartTotalProducts', JSON.stringify(cartStore.myProducts.length))
     }
     let handleSizeChange = async (elements: number) => {
       pageSize.value = elements
