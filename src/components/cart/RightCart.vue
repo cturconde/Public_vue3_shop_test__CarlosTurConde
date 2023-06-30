@@ -26,23 +26,10 @@ export default defineComponent({
   setup() {
     let totalProducts = ref(0)
     let myProducts = ref()
-    const isFirstLoad = ref(true)
     const cartStore = useCartStore()
 
     totalProducts.value = computed(() => cartStore.totalProducts)
     myProducts.value = cartStore.myProducts
-    // onMounted(() => {
-
-    let cartProducts = localStorage.getItem('cartProducts')
-
-    if (cartProducts) {
-      cartProducts = JSON.parse(cartProducts)
-      console.log('El elemento existe en el almacenamiento local:', cartProducts)
-    } else {
-      console.log('El elemento no existe en el almacenamiento local')
-    }
-
-    // })
 
     let componentVisible = ref(false)
 
@@ -54,8 +41,7 @@ export default defineComponent({
       toggleComponent,
       totalProducts,
       myProducts,
-      cartStore,
-      isFirstLoad
+      cartStore
     }
   }
 })

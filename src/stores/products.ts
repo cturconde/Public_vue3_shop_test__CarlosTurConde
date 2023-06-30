@@ -25,10 +25,12 @@ export const useProductList = defineStore('myProductsList', {
 })
 
 export const useCartStore = defineStore('useCartStore', () => {
-  const productsOnCart = ref([])
+  const a = localStorage.getItem('cartProducts')
+  const b = a ? JSON.parse(a) : null
+  const productsOnCart = a ? ref(b) : ref([])
+
   const addProduct = (product: any) => {
-    console.log('addProduct', product)
-    const productIsAdded = productsOnCart.value.find((prod) => prod.id === product.id)
+    const productIsAdded = productsOnCart.value.find((prod) => prod?.id === product.id)
     if (!productIsAdded) {
       product.quantity = 1
       productsOnCart.value.push(product)
