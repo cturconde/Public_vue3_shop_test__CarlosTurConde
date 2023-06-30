@@ -44,6 +44,8 @@ export default defineComponent({
 
     const removeProduct = (product) => {
       cartStore.removeProduct(product)
+      localStorage.setItem('cartProducts', JSON.stringify(cartStore.myProducts))
+      localStorage.setItem('cartTotalProducts', JSON.stringify(cartStore.myProducts.length))
     }
 
     const quantityChanged = (product) => {

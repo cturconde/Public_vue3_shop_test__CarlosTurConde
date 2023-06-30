@@ -31,26 +31,18 @@ export default defineComponent({
 
     totalProducts.value = computed(() => cartStore.totalProducts)
     myProducts.value = cartStore.myProducts
-    onMounted(() => {
-      if (isFirstLoad.value) {
-        let storageItem = localStorage.getItem('cartStorage')
+    // onMounted(() => {
 
-        if (storageItem) {
-          storageItem = JSON.parse(storageItem)
-          console.log('El elemento existe en el almacenamiento local:', storageItem)
-          totalProducts.value = computed(() => storageItem.totalProducts)
-          myProducts.value = storageItem.myProducts
-          localStorage.removeItem('cartStorage')
-        } else {
-          console.log('El elemento no existe en el almacenamiento local')
-          totalProducts.value = computed(() => cartStore.totalProducts)
-          myProducts.value = cartStore.myProducts
-        }
+    let cartProducts = localStorage.getItem('cartProducts')
 
-        // Actualiza el estado para evitar futuras comprobaciones
-        isFirstLoad.value = false
-      }
-    })
+    if (cartProducts) {
+      cartProducts = JSON.parse(cartProducts)
+      console.log('El elemento existe en el almacenamiento local:', cartProducts)
+    } else {
+      console.log('El elemento no existe en el almacenamiento local')
+    }
+
+    // })
 
     let componentVisible = ref(false)
 
