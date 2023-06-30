@@ -29,6 +29,10 @@ export const useCartStore = defineStore('useCartStore', () => {
   const b = a ? JSON.parse(a) : null
   const productsOnCart = a ? ref(b) : ref([])
 
+  const quantityChanged = (product: any) => {
+    const myPr = productsOnCart.value.find((prod) => prod?.id === product.id)
+    if (myPr) myPr.quantity = product.quantity
+  }
   const addProduct = (product: any) => {
     const productIsAdded = productsOnCart.value.find((prod) => prod?.id === product.id)
     if (!productIsAdded) {
@@ -44,12 +48,13 @@ export const useCartStore = defineStore('useCartStore', () => {
     }
   }
 
-  const myProducts: any = computed(() => productsOnCart.value)
+  const myProducts = computed(() => productsOnCart.value)
   const totalProducts = computed(() => productsOnCart.value.length)
 
   return {
     addProduct,
     removeProduct,
+    quantityChanged,
     myProducts,
     totalProducts
   }

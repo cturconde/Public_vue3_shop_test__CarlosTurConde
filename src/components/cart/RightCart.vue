@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted, computed } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import ElementsCart from './ElementsCart.vue'
 import { useCartStore } from '@/stores/products'
 
