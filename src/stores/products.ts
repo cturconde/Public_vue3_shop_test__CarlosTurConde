@@ -27,6 +27,7 @@ export const useProductList = defineStore('myProductsList', {
 export const useCartStore = defineStore('useCartStore', () => {
   const productsOnCart = ref([])
   const addProduct = (product: any) => {
+    console.log('addProduct', product)
     const productIsAdded = productsOnCart.value.find((prod) => prod.id === product.id)
     if (!productIsAdded) {
       product.quantity = 1
@@ -41,7 +42,13 @@ export const useCartStore = defineStore('useCartStore', () => {
     }
   }
 
-  const myProducts = computed(() => productsOnCart.value)
-  const totalProducts = computed(() => myProducts.value.length)
-  return { addProduct, removeProduct, myProducts, totalProducts }
+  const myProducts: any = computed(() => productsOnCart.value)
+  const totalProducts = computed(() => productsOnCart.value.length)
+
+  return {
+    addProduct,
+    removeProduct,
+    myProducts,
+    totalProducts
+  }
 })

@@ -10,8 +10,12 @@
             step-strictly
             :min="1"
             @change="quantityChanged"
-          /><el-button @click="removeProduct(product)">Remove</el-button>
-          <h4>{{ product.price }}€ (-{{ product.discountPercentage }}%)</h4>
+          /><el-button size="small" @click="removeProduct(product)">Remove</el-button>
+          <h4>
+            {{ (product.totalPrice = product.price * product.quantity) }} € (-{{
+              product.discountPercentage
+            }}%)
+          </h4>
         </div>
       </div>
 
@@ -36,7 +40,6 @@ export default defineComponent({
     }
   },
   setup(props) {
-    console.log('ElementsCart', props.products)
     const cartStore = useCartStore()
 
     const removeProduct = (product) => {

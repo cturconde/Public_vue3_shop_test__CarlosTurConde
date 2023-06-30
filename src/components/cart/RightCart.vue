@@ -9,14 +9,14 @@
       {{ componentVisible ? 'Hide Cart >' : '< Show Cart ' }}
     </el-button>
     <div class="component-container">
-      Shopping Cart: {{ cartStore.totalProducts }}
-      <ElementsCart :products="cartStore.myProducts"></ElementsCart>
+      Shopping Cart: {{ totalProducts }}
+      <ElementsCart :products="myProducts"></ElementsCart>
     </div>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted, computed } from 'vue'
 import ElementsCart from './ElementsCart.vue'
 import { useCartStore } from '@/stores/products'
 
@@ -24,18 +24,46 @@ export default defineComponent({
   name: 'RightCart',
   components: { ElementsCart },
   setup() {
-    let cartStore = useCartStore()
+    let totalProducts = ref(0)
+    let myProducts = ref()
+    const isFirstLoad = ref(true)
+    const cartStore = useCartStore()
 
-    console.log('RightCart:', cartStore.myProducts)
+    totalProducts.value = computed(() => cartStore.totalProducts)
+    myProducts.value = cartStore.myProducts
+    onMounted(() => {
+      if (isFirstLoad.value) {
+        let storageItem = localStorage.getItem('cartStorage')
+
+        if (storageItem) {
+          storageItem = JSON.parse(storageItem)
+          console.log('El elemento existe en el almacenamiento local:', storageItem)
+          totalProducts.value = computed(() => storageItem.totalProducts)
+          myProducts.value = storageItem.myProducts
+          localStorage.removeItem('cartStorage')
+        } else {
+          console.log('El elemento no existe en el almacenamiento local')
+          totalProducts.value = computed(() => cartStore.totalProducts)
+          myProducts.value = cartStore.myProducts
+        }
+
+        // Actualiza el estado para evitar futuras comprobaciones
+        isFirstLoad.value = false
+      }
+    })
+
     let componentVisible = ref(false)
 
-    let toggleComponent = () => {
+    const toggleComponent = () => {
       componentVisible.value = !componentVisible.value
     }
     return {
       componentVisible,
       toggleComponent,
-      cartStore
+      totalProducts,
+      myProducts,
+      cartStore,
+      isFirstLoad
     }
   }
 })
@@ -49,6 +77,7 @@ export default defineComponent({
   width: 300px;
   height: 100%;
   background-color: #f2f2f2;
+  border-left: 2px solid black;
   padding: 10px;
   z-index: 999;
 }
