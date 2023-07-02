@@ -10,7 +10,6 @@ import router from './router'
 
 //CSS
 import 'element-plus/dist/index.css'
-import 'bootstrap/dist/css/bootstrap.min.css'
 
 const app = createApp(App)
 

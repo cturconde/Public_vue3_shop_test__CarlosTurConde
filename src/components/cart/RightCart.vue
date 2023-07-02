@@ -5,31 +5,62 @@
       hideContainer: !componentVisible
     }"
   >
-    <el-button @click="toggleComponent" class="toggle-button" type="warning" color="black">
-      {{ componentVisible ? 'Hide Cart >' : '< Show Cart ' }}
+    <el-button
+      @click="toggleComponent"
+      class="toggle-button"
+      type="warning"
+      color="black"
+      :icon="ShoppingCart"
+    >
+      {{ componentVisible ? 'Hide >' : 'Show' }}
     </el-button>
-    <div class="component-container">
-      Shopping Cart: {{ totalProducts }}
+    <h3 style="margin-top: 0px; text-decoration: underline">Shopping cart</h3>
+
+    <div class="component-ElementsCart">
       <ElementsCart :products="myProducts"></ElementsCart>
+    </div>
+    <div class="component-ResumeCart">
+      <ResumeCart :totalProducts="totalProducts" :totalPrice="totalPrice"></ResumeCart>
     </div>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, ref, computed, watch } from 'vue'
 import ElementsCart from './ElementsCart.vue'
+import ResumeCart from './ResumeCart.vue'
 import { useCartStore } from '@/stores/products'
+import { ShoppingCart, Expand, Fold } from '@element-plus/icons-vue'
 
 export default defineComponent({
   name: 'RightCart',
-  components: { ElementsCart },
+  components: { ElementsCart, ResumeCart },
   setup() {
     let totalProducts = ref(0)
+
     let myProducts = ref()
     const cartStore = useCartStore()
+    const totalpriceStorage = JSON.parse(localStorage.getItem('totalPrice'))
+    let totalPrice = totalpriceStorage ? ref(totalpriceStorage) : ref(0)
 
     totalProducts.value = computed(() => cartStore.totalProducts)
     myProducts.value = cartStore.myProducts
+
+    watch(cartStore.myProducts, (products, b) => {
+      totalPrice.value = 0
+      products.forEach((product) => {
+        totalPrice.value += product.totalPrice
+      })
+      localStorage.setItem('totalPrice', JSON.stringify(totalPrice.value))
+    })
+
+    watch(totalProducts.value, (total, b) => {
+      myProducts.value = cartStore.myProducts
+      if (total === 0) {
+        myProducts.value = []
+        totalPrice.value = 0
+      }
+    })
 
     let componentVisible = ref(false)
 
@@ -40,8 +71,12 @@ export default defineComponent({
       componentVisible,
       toggleComponent,
       totalProducts,
+      totalPrice,
       myProducts,
-      cartStore
+      cartStore,
+      ShoppingCart,
+      Expand,
+      Fold
     }
   }
 })
@@ -54,8 +89,8 @@ export default defineComponent({
   right: 0;
   width: 300px;
   height: 100%;
-  background-color: #f2f2f2;
-  border-left: 2px solid black;
+  background-color: #f4f2f2;
+  box-shadow: 1px 1px 5px 1px black;
   padding: 10px;
   z-index: 999;
 }
@@ -68,8 +103,8 @@ export default defineComponent({
   left: -105px;
 }
 
-.component-container {
-  height: calc(100% - 40px);
+.component-ElementsCart {
+  height: calc(100% - 130px);
   overflow: auto;
 }
 </style>

@@ -1,27 +1,36 @@
 <template>
   <div>
-    <div v-for="(product, index) in products" :key="index" class="product-item">
-      <div class="product-values">
-        <img :src="product.thumbnail" :alt="product.title" class="product-image col" />
-        <div class="product-actions">
-          <el-input-number
-            v-model="product.quantity"
-            :step="1"
-            step-strictly
-            :min="1"
-            @change="quantityChanged(product)"
-          /><el-button size="small" @click="removeProduct(product)">Remove</el-button>
-          <h4>
-            {{ (product.totalPrice = product.price * product.quantity) }} € (-{{
-              product.discountPercentage
-            }}%)
-          </h4>
+    <div v-for="(product, index) in products" :key="index">
+      <div class="product-item">
+        <div class="product-values">
+          <img :src="product.thumbnail" :alt="product.title" class="product-image col" />
+          <div class="product-actions">
+            <el-input-number
+              v-model="product.quantity"
+              :step="1"
+              step-strictly
+              :min="1"
+              @change="quantityChanged(product)"
+            /><el-button
+              size="small"
+              @click="removeProduct(product)"
+              type="danger"
+              plain
+              :icon="Delete"
+              >Remove</el-button
+            >
+            <h5>{{ calcTotalPrice(product) }} € (-{{ product.discountPercentage }}%)</h5>
+          </div>
         </div>
-      </div>
 
-      <div class="product-info">
-        <h4 class="col title">{{ product.title }}</h4>
-        <p class="col description">{{ product.description }}</p>
+        <div class="product-info">
+          <h4 class="col title">
+            {{ product.title }}
+          </h4>
+          <p class="col description">
+            {{ product.description }}
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -31,16 +40,24 @@
 import { defineComponent } from 'vue'
 import { useCartStore } from '@/stores/products'
 
+import { Delete } from '@element-plus/icons-vue'
+
 export default defineComponent({
   name: 'ElementsCart',
   props: {
     products: {
       type: Array,
-      required: true
+      required: false
     }
   },
   setup(props) {
     const cartStore = useCartStore()
+
+    const calcTotalPrice = (product) => {
+      if (product && typeof product === 'object') {
+        return (product.totalPrice = product?.price * product?.quantity)
+      } else return 0
+    }
 
     const removeProduct = (product) => {
       cartStore.removeProduct(product)
@@ -52,7 +69,7 @@ export default defineComponent({
       localStorage.setItem('cartProducts', JSON.stringify(cartStore.myProducts))
     }
 
-    return { props, removeProduct, quantityChanged }
+    return { props, removeProduct, quantityChanged, Delete, calcTotalPrice }
   }
 })
 </script>

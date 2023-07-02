@@ -28,13 +28,14 @@ export const useCartStore = defineStore('useCartStore', () => {
   const a = localStorage.getItem('cartProducts')
   const b = a ? JSON.parse(a) : null
   const productsOnCart = a ? ref(b) : ref([])
+  console.log('productsOnCart', productsOnCart)
 
   const quantityChanged = (product: any) => {
-    const myPr = productsOnCart.value.find((prod) => prod?.id === product.id)
+    const myPr = productsOnCart.value.find((prod: { id: any }) => prod?.id === product.id)
     if (myPr) myPr.quantity = product.quantity
   }
   const addProduct = (product: any) => {
-    const productIsAdded = productsOnCart.value.find((prod) => prod?.id === product.id)
+    const productIsAdded = productsOnCart.value.find((prod: { id: any }) => prod?.id === product.id)
     if (!productIsAdded) {
       product.quantity = 1
       productsOnCart.value.push(product)
@@ -42,10 +43,14 @@ export const useCartStore = defineStore('useCartStore', () => {
   }
 
   const removeProduct = (product: any) => {
-    const index = productsOnCart.value.findIndex((p) => p.id === product.id)
+    const index = productsOnCart.value.findIndex((p: { id: any }) => p.id === product.id)
     if (index !== -1) {
       productsOnCart.value.splice(index, 1)
     }
+  }
+
+  const clearCart = async () => {
+    productsOnCart.value = []
   }
 
   const myProducts = computed(() => productsOnCart.value)
@@ -55,6 +60,7 @@ export const useCartStore = defineStore('useCartStore', () => {
     addProduct,
     removeProduct,
     quantityChanged,
+    clearCart,
     myProducts,
     totalProducts
   }

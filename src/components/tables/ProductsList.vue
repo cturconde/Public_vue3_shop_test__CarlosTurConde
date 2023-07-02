@@ -32,9 +32,9 @@
           <el-input v-model="search" size="small" placeholder="Type to search products by name" />
         </template>
         <template v-slot="scope">
-          <el-button @click="moreInfo(scope.row)" type="primary">See more info</el-button>
-          <el-button @click="addToCart(scope.row)" type="primary" color="green"
-            >Add to cart</el-button
+          <el-button @click="moreInfo(scope.row)" type="primary" :icon="View">More info</el-button>
+          <el-button @click="addToCart(scope.row)" type="primary" color="green" :icon="ShoppingCart"
+            >Add</el-button
           >
         </template>
       </el-table-column>
@@ -74,7 +74,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue'
-import { useProductList, useCartStore, useCartValues } from '@/stores/products'
+import { useProductList, useCartStore } from '@/stores/products'
+import { ShoppingCart, View } from '@element-plus/icons-vue'
 
 export default defineComponent({
   name: 'ProductsList',
@@ -146,7 +147,9 @@ export default defineComponent({
       currentPage,
       handleSizeChange,
       handleCurrentChange,
-      store: useProductList()
+      store: useProductList(),
+      ShoppingCart,
+      View
     }
   }
 })
@@ -158,9 +161,10 @@ export default defineComponent({
   color: rgb(194, 100, 0);
   text-shadow: 1px 1px 2px #9c9c9c;
   letter-spacing: 1px;
-  padding: 2px;
+  padding: 1px;
+  margin: 1px;
   font-size: small;
-  border: 0.3rem solid rgba(194, 100, 0, 0.792);
+  border: 0.1rem solid rgba(194, 100, 0, 0.792);
   border-radius: 5px;
 }
 </style>

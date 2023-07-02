@@ -29,7 +29,7 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 
 Dependecies if not installed:
     npm install element-plus --save
-    npm install bootstrap@3
+    npm install bootstrap@5.3.0
     npm install --save-dev sass
 ```
 

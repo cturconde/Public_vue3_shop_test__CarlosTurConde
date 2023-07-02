@@ -8,3 +8,7 @@ export default defineComponent({
   name: 'App'
 })
 </script>
+
+<style lang="scss">
+@import '../node_modules/bootstrap/scss/bootstrap';
+</style>
