@@ -6,7 +6,9 @@
     </div>
     <div>
       <el-button class="col-6" type="success">Buy</el-button>
-      <el-button class="col-4" type="info" plain @click="clearCart()">Clear Cart</el-button>
+      <el-button class="clearCart col-4" type="info" plain @click="clearCart()"
+        >Clear Cart</el-button
+      >
     </div>
   </div>
 </template>

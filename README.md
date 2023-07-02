@@ -31,6 +31,7 @@ Dependecies if not installed:
     npm install element-plus --save
     npm install bootstrap@5.3.0
     npm install --save-dev sass
+    npm install cypress -D
 ```
 
 ### Compile and Hot-Reload for Development
@@ -48,6 +49,7 @@ npm run build
 ### Run Unit Tests with [Vitest](https://vitest.dev/)
 
 ```sh
+npx cypress open
 npm run test:unit
 ```
 

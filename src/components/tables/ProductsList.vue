@@ -33,7 +33,12 @@
         </template>
         <template v-slot="scope">
           <el-button @click="moreInfo(scope.row)" type="primary" :icon="View">More info</el-button>
-          <el-button @click="addToCart(scope.row)" type="primary" color="green" :icon="ShoppingCart"
+          <el-button
+            class="addToCart"
+            @click="addToCart(scope.row)"
+            type="primary"
+            color="green"
+            :icon="ShoppingCart"
             >Add</el-button
           >
         </template>

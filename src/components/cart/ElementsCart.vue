@@ -12,6 +12,7 @@
               :min="1"
               @change="quantityChanged(product)"
             /><el-button
+              class="removeProduct"
               size="small"
               @click="removeProduct(product)"
               type="danger"
