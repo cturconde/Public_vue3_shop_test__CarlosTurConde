@@ -46,9 +46,9 @@ export default defineComponent({
     totalProducts.value = computed(() => cartStore.totalProducts)
     myProducts.value = cartStore.myProducts
 
-    watch(cartStore.myProducts, (products, b) => {
+    watch(cartStore, (products, b) => {
       totalPrice.value = 0
-      products.forEach((product) => {
+      products.myProducts.forEach((product) => {
         totalPrice.value += product.totalPrice
       })
       localStorage.setItem('totalPrice', JSON.stringify(totalPrice.value))

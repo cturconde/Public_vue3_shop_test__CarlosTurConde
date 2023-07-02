@@ -54,9 +54,7 @@ export default defineComponent({
     const cartStore = useCartStore()
 
     const calcTotalPrice = (product) => {
-      if (product && typeof product === 'object') {
-        return (product.totalPrice = product?.price * product?.quantity)
-      } else return 0
+      return (product.totalPrice = product?.price * product?.quantity)
     }
 
     const removeProduct = (product) => {

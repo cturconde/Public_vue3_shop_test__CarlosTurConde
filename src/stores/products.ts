@@ -28,7 +28,6 @@ export const useCartStore = defineStore('useCartStore', () => {
   const a = localStorage.getItem('cartProducts')
   const b = a ? JSON.parse(a) : null
   const productsOnCart = a ? ref(b) : ref([])
-  console.log('productsOnCart', productsOnCart)
 
   const quantityChanged = (product: any) => {
     const myPr = productsOnCart.value.find((prod: { id: any }) => prod?.id === product.id)

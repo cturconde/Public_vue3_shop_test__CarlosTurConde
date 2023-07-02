@@ -5,7 +5,7 @@
       <h4 class="col-5">{{ totalPrice }} €</h4>
     </div>
     <div>
-      <el-button type="danger">Buy</el-button>
+      <el-button class="col-6" type="success">Buy</el-button>
       <el-button class="col-4" type="info" plain @click="clearCart()">Clear Cart</el-button>
     </div>
   </div>
