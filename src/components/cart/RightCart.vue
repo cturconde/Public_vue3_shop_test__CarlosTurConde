@@ -37,14 +37,13 @@ export default defineComponent({
   components: { ElementsCart, ResumeCart },
   setup() {
     let totalProducts = ref(0)
-
-    let myProducts = ref()
     const cartStore = useCartStore()
+    let myProducts = ref(cartStore.myProducts)
+
     const totalpriceStorage = JSON.parse(localStorage.getItem('totalPrice'))
     let totalPrice = totalpriceStorage ? ref(totalpriceStorage) : ref(0)
 
     totalProducts.value = computed(() => cartStore.totalProducts)
-    myProducts.value = cartStore.myProducts
 
     watch(cartStore, (products, b) => {
       totalPrice.value = 0
@@ -52,14 +51,10 @@ export default defineComponent({
         totalPrice.value += product.totalPrice
       })
       localStorage.setItem('totalPrice', JSON.stringify(totalPrice.value))
-    })
-
-    watch(totalProducts.value, (total, b) => {
-      myProducts.value = cartStore.myProducts
-      if (total === 0) {
+      if (products.totalProducts === 0) {
         myProducts.value = []
         totalPrice.value = 0
-      }
+      } else myProducts.value = cartStore.myProducts
     })
 
     let componentVisible = ref(false)
