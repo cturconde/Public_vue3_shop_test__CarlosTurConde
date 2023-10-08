@@ -1,4 +1,30 @@
 # Public Technical_test CarlosTurConde
+
+## Task:
+
+FUNCTIONAL:
+· List the products.
+· Display detailed information about a product on a landing page.
+· Add products to the shopping cart.
+· Increase, decrease, or remove products from the cart.
+· Persistent cart. If the page is reloaded or another section is accessed, the added products should not be lost.
+· Total number of products in the cart.
+· Total amount of products in the cart.
+· Option to clear the entire cart.
+· Highlight the product with the lowest price.
+· Add a text filter by product name. The API allows for this type of query, see documentation.
+· Add pagination. The API allows for this type of query, see documentation.
+
+TECHNICAL:
+· Development with Vue version 3.
+· Use of ECMAScript 6 or later.
+· Inclusion of a Readme.md file with instructions to start the application.
+· Use of the Composition API instead of the Options API.
+· Proper design of the DOM and its components.
+· Declaration of variables, functions, etc. 
+· Implementation of unit tests or end-to-end tests.
+· Use of clean code and best practices.
+
 ## Recommended IDE Setup
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
@@ -24,12 +50,6 @@ Dependecies if not installed:
 
 ```sh
 npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
 ```
 
 ### Run Unit Tests with [Vitest](https://vitest.dev/)
